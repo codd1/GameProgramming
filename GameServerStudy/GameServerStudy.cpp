@@ -3,6 +3,8 @@ using namespace std;
 
 int main()
 {
+    // 간단한 전투 (연습 문제)
+
     int round = 1;
     int hp = 100;   // 몬스터HP
     int damage = 10;    // 플레이어 데미지
