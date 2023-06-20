@@ -1,33 +1,75 @@
 ﻿#include <iostream>
 using namespace std;
 
+//const int GBB_SCISSORS = 0;
+//const int GBB_ROCK = 1;
+//const int GBB_PAPER = 2;
+
+enum ENUM_GBB {
+	GBB_SCISSORS,
+	GBB_ROCK,
+	GBB_PAPER
+};
+
 int main()
 {
-    // 간단한 전투 (연습 문제)
+	// 가위바위보 (연습 문제)
 
-    int round = 1;
-    int hp = 100;   // 몬스터HP
-    int damage = 10;    // 플레이어 데미지
+	srand(time(0));
 
-    while (true) {
-        // 전투 진행
-        hp -= damage;
-        if (hp < 0) {
-            hp = 0;
-        }
-        cout << "Round: " << round << " 몬스터 체력: " << hp << endl;
+	while (true) {
+		cout << "가위(0) 바위(1) 보(2) 중에 골라주세요!" << endl;
 
-        if (hp == 0) {
-            cout << "몬스터 처치!" << endl;
-            break;
-        }
+		int value;  // 사용자 입력 값
+		cin >> value;
 
-        if (round == 5) {
-            cout << "제한 라운드 종료" << endl;
-            break;
-        }
+		int computerValue = rand() % 3;     // 컴퓨터 입력 값
 
-        round++;
-    }
-    
+		if (value == GBB_SCISSORS) {   // 가위
+			switch (computerValue) {
+			case GBB_SCISSORS: // 가위
+				cout << "가위(Player) vs 가위(Computer): 비겼습니다!" << endl;
+				break;
+			case GBB_ROCK: // 바위
+				cout << "가위(Player) vs 바위(Computer): 졌습니다!" << endl;
+				break;
+			case GBB_PAPER: // 보
+				cout << "가위(Player) vs 보(Computer): 비겼습니다!" << endl;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (value == GBB_ROCK) {  // 바위
+			switch (computerValue) {
+			case GBB_SCISSORS: // 가위
+				cout << "바위(Player) vs 가위(Computer): 이겼습니다!" << endl;
+				break;
+			case GBB_ROCK: // 바위
+				cout << "바위(Player) vs 바위(Computer): 비겼습니다!" << endl;
+				break;
+			case GBB_PAPER: // 보
+				cout << "바위(Player) vs 보(Computer): 졌습니다!" << endl;
+				break;
+			default:
+				break;
+			}
+		}
+		else {  // 보
+			switch (computerValue) {
+			case GBB_SCISSORS: // 가위
+				cout << "보(Player) vs 가위(Computer): 졌습니다!" << endl;
+				break;
+			case GBB_ROCK: // 바위
+				cout << "보(Player) vs 바위(Computer): 이겼습니다!" << endl;
+				break;
+			case GBB_PAPER: // 보
+				cout << "보(Player) vs 보(Computer): 비겼습니다!" << endl;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
 }
