@@ -4,57 +4,75 @@ using namespace std;
 // 객체지향 (Object Oriented Programming)
 // 데이터 + 로직
 
-// 플레이어, 몬스터, GameRoom, Lobby(장소) 등도 객체가 된다.
-class Knight {
+/*
+	OOP 3대 요소
+	- 상속성 (Is-A vs Has-A)
+	- 은닉성
+	- 다형성
+*/
+
+/*
+	GameObject
+	- Creature
+		- Player, Monster, Npc, Pet
+	- Projectile (투사체)
+		- Arrow, Fireball
+	- Env (수집품)
+*/
+
+/*
+	Item
+	- Weapon
+		- Sword, Bow, Lance
+	- Armor
+		- Helmet, Boots, Armor, Glove
+	- Consumable
+		- Potion, Scroll
+*/
+
+class Player {
 public:
-	// 기본 생성자 (Constructor)
-	Knight() {
-		m_hp = 0;
-		m_attack = 0;
-		m_defence = 0;
-		cout << "Knight()" << endl;
-	}
-	// 기타 생성자
-	Knight(int hp, int attack, int defence) {
-		m_hp = hp;
-		m_attack = attack;
-		m_defence = defence;
-		cout << "Knight()" << endl;
-	}
-	// 복사 생성자
-	Knight(const Knight& other) {
-		m_hp = other.m_hp;
-		m_attack = other.m_attack;
-		m_defence = other.m_defence;
-		cout << "Knight(const Knight& other)" << endl;
-	}
-	// 소멸자 (Destructor) - 딱 1개만 존재
-	~Knight() {
-		cout << "~Knight()" << endl;
-	}
+	void Move() {}
+	void Attack() {}
+	void Die() {}
 
 public:
-	// 멤버 함수
-	void Attack() {
-		cout << "Attack" << endl;
-	}
-	void Die() {
-		cout << "Die" << endl;
-	}
-	void HealMe(int value) {
-		m_hp += value;
-	}
-
-public:
-	// 멤버 변수
 	int m_hp;
 	int m_attack;
 	int m_defence;
 };
 
-int main() {
-	Knight k1(100,10,1);
-	Knight k2(k1);	// k1의 데이터를 복사
+class Knight : public Player {
+public:
 
-	cout << k1.m_hp << endl;
+public:
+	int m_stemina;
+};
+
+class Archer : public Player {
+public:
+
+public:
+	int m_arrowCount;
+};
+
+class Mage : public Player {
+public:
+
+public:
+	int m_mp;
+};
+
+void Fight(Player* p1, Player* p2) {
+	p1->m_hp -= p2->m_attack;
+}
+
+int main() {
+	Knight k1;
+	Player* p1 = &k1;
+
+	Mage m1;
+	Player* p2 = &m1;
+
+	Fight(&k1, &m1);
 }
