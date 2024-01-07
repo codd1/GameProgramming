@@ -53,14 +53,19 @@ void Game::Render()
 	{
 		POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
 		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(_hdc, 20, 10, str.c_str(), str.size());
+		::TextOut(_hdcBack, 20, 10, str.c_str(), str.size());
 	}
 
 	{
 		// format을 이용해서 아래 형태의 문자열을 만든다. (인자 순서대로 들어감)
 		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
-		::TextOut(_hdc, 650, 10, str.c_str(), str.size());
+		::TextOut(_hdcBack, 650, 10, str.c_str(), str.size());
 	}
 
-	GET_SINGLE(SceneManager)->Render(_hdc);
+	GET_SINGLE(SceneManager)->Render(_hdcBack);
+
+
+	// 더블 버퍼링
+	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY);		// 비트 블릿: 고속 복사
+	::PatBlt(_hdcBack, 0, 0, _rect.right, _rect.bottom, WHITENESS);
 }
