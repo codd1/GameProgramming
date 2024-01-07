@@ -2,13 +2,20 @@
 #include "Game.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 Game::Game()
 {
+	int* p = new int();
 }
 
 Game::~Game()
 {
+	GET_SINGLE(SceneManager)->Clear();
+
+	// Detected memory leaks! << 메모리 누수가 있다면 이렇게 출력된다.
+	// 사실 마지막에 불러야 의미가 있긴 하다.
+	_CrtDumpMemoryLeaks();
 }
 
 void Game::Init(HWND hwnd)
@@ -16,14 +23,26 @@ void Game::Init(HWND hwnd)
 	_hwnd = hwnd;
 	_hdc = ::GetDC(hwnd);
 
+	::GetClientRect(hwnd, &_rect);
+
+	// _hdc와 호환되는 우리만의 또 다른 도화지 생성 (더블 버퍼링을 위함)
+	_hdcBack = ::CreateCompatibleDC(_hdc);		// _hdc와 호환되는 DC를 생성
+	_bmpBack = ::CreateCompatibleBitmap(_hdc, _rect.right, _rect.bottom);	// _hdc와 호환되는 비트맵 생성
+	HBITMAP prev = (HBITMAP)::SelectObject(_hdcBack, _bmpBack);		// DC와 BMP를 연결
+	::DeleteObject(prev);
+
 	GET_SINGLE(TimeManager)->Init();		// = TimeManager::GetInstance()->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
+	GET_SINGLE(SceneManager)->Init();
+
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
 }
 
 void Game::Update()
 {
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(InputManager)->Update();
+	GET_SINGLE(SceneManager)->Update();
 }
 
 void Game::Render()
@@ -43,5 +62,5 @@ void Game::Render()
 		::TextOut(_hdc, 650, 10, str.c_str(), str.size());
 	}
 
-	::Rectangle(_hdc, 200, 200, 400, 400);
+	GET_SINGLE(SceneManager)->Render(_hdc);
 }

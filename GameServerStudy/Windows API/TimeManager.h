@@ -1,4 +1,6 @@
 #pragma once
+
+// 프레임 관리를 위해 현재 시간 계산
 class TimeManager
 {
 	DECLARE_SINGLE(TimeManager);

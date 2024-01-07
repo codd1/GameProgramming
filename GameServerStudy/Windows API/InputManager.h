@@ -1,5 +1,7 @@
 #pragma once
 
+// 현재 키보드나 마우스 상태 저장
+
 enum class KeyType {
 	LeftMouse = VK_LBUTTON,
 	RightMouse = VK_RBUTTON,
