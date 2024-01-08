@@ -17,7 +17,7 @@ void Utils::DrawCircle(HDC hdc, Pos pos, int32 radius)
 }
 
 
-void Utils::DrawLine(HDC hdc, Pos pos, Pos from, Pos to)
+void Utils::DrawLine(HDC hdc, Pos from, Pos to)
 {
 	::MoveToEx(hdc, from.x, from.y, nullptr);
 	::LineTo(hdc, to.x, to.y);

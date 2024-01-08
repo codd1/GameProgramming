@@ -3,5 +3,6 @@
 enum class SceneType {
 	None,
 	DevScene,
-	GameScene
+	GameScene,
+	EditScene
 };

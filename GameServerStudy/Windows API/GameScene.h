@@ -5,7 +5,7 @@ class GameScene : public Scene
 {
 public:
 	GameScene();
-	virtual ~GameScene();
+	virtual ~GameScene() override;
 
 	virtual void Init() override;
 	virtual void Update() override;

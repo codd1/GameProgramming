@@ -8,6 +8,6 @@ public:
 
 	static void DrawCircle(HDC hdc, Pos pos, int32 radius);
 
-	static void DrawLine(HDC hdc, Pos pos, Pos from, Pos to);
+	static void DrawLine(HDC hdc, Pos from, Pos to);
 };
 
