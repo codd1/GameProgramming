@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 Game::Game()
 {
@@ -12,6 +13,7 @@ Game::Game()
 Game::~Game()
 {
 	GET_SINGLE(SceneManager)->Clear();
+	GET_SINGLE(ResourceManager)->Clear();
 
 	// Detected memory leaks! << 메모리 누수가 있다면 이렇게 출력된다.
 	// 사실 마지막에 불러야 의미가 있긴 하다.
@@ -34,8 +36,9 @@ void Game::Init(HWND hwnd)
 	GET_SINGLE(TimeManager)->Init();		// = TimeManager::GetInstance()->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
+	GET_SINGLE(ResourceManager)->Init();
 
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::EditScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::GameScene);
 }
 
 void Game::Update()
