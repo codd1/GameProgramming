@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <Windows.h>
 
 using int8 = __int8;
 using int16 = __int16;
@@ -20,6 +21,7 @@ struct Stat {
 struct Vector {
 	Vector() { }
 	Vector(float x, float y) : x(x), y(y) { }
+	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) { }
 
 	Vector operator+(const Vector& other) {
 		Vector ret;
@@ -65,7 +67,7 @@ struct Vector {
 		return ::sqrt(LengthSquared());
 	}
 
-	void Normalize() {
+	void Normalize() {		// 정규화 (단위벡터 만들기)
 		float length = Length();
 
 		if (length < 0.000000000001f) {
@@ -74,6 +76,10 @@ struct Vector {
 
 		x /= length;
 		y /= length;
+	}
+
+	float Dot(Vector other) {		// 내적
+		return x * other.x + y * other.y;
 	}
 
 	float x = 0;
