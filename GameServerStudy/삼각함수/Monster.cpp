@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Monster.h"
 #include "InputManager.h"
 
@@ -15,6 +15,12 @@ void Monster::Init()
 	_stat.hp = 100;
 	_stat.maxHp = 100;
 	_stat.speed = 10;
+
+	_pos = Pos{ 400,300 };
+
+	_lookPos = Pos{ 550, 70 };
+	_lookDir = _lookPos - _pos;
+	_lookDir.Normalize();
 }
 
 void Monster::Update()
@@ -24,39 +30,41 @@ void Monster::Update()
 
 void Monster::Render(HDC hdc)
 {
-	Vector mousePos = GET_SINGLE(InputManager)->GetMousePos();
+	Utils::DrawCircle(hdc, _pos, 100);
 
 	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
 	{
-		Utils::DrawLine(hdc, _pt1, _pt2);
-		Utils::DrawLine(hdc, _pt2, _pt3);
-		Utils::DrawLine(hdc, _pt3, _pt1);
+		// ëª¬ìŠ¤í„°ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ (v1)
+		Utils::DrawLine(hdc, _pos, _lookPos);
 	}
 	::SelectObject(hdc, oldPen);
 	::DeleteObject(pen);
 
-	Utils::DrawLine(hdc, _pt1, mousePos);
+	Vector mousePos = GET_SINGLE(InputManager)->GetMousePos();
 
-	Vector v12 = _pt2 - _pt1;		// v12 º¤ÅÍ (v1 -> v2)
-	Vector v1m = mousePos - _pt1;	// v1m º¤ÅÍ (v1 -> vm)
-	Vector v13 = _pt3 - _pt1;		// v13 º¤ÅÍ (v1 -> v3)
+	// ëª¬ìŠ¤í„°ê°€ ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ë°”ë¼ë³´ëŠ” ë°©í–¥(v2)
+	Vector monsterToMouseDir = mousePos - _pos;
+	monsterToMouseDir.Normalize();
 
-	// Á¤±ÔÈ­´Â ÇÊ¼ö X
-	v12.Normalize();
-	v1m.Normalize();
-	v13.Normalize();
+	Vector dir = _lookDir;
+	dir.Normalize();
 
-	float c1 = v12.Cross(v1m);		// v12 x v1m (¿ÜÀû)
-	float c2 = v1m.Cross(v13);		// v1m x v13 (¿ÜÀû)
+	// ëª¬ìŠ¤í„°ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ê³¼ ëª¬ìŠ¤í„°ê°€ ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ë°”ë¼ë³´ëŠ” ë°©í–¥ ì‚¬ì´ì˜ ê°ë„ êµ¬í•˜ê¸°
+	// 1. ë‚´ì  - v1 â¦ v2 = |v1||v2|cosÎ¸ = cosÎ¸
+	// 2. ì—­ì‚¼ê°í•¨ìˆ˜ - arccos(cosÎ¸) = Î¸
 
-	if (c1 >= 0 && c2 >= 0) {
-		// µÑ ´Ù ¾ç¼öÀÏ °æ¿ì ºÎÈ£°¡ °°Àº °æ¿ìÀÌ¹Ç·Î mousePos°¡ ¹üÀ§ ³»¿¡ ÀÖ´Â °æ¿ì
+	float dot = monsterToMouseDir.Dot(_lookDir);
+	float radian = ::acos(dot);
+	float angle = radian * 180 / 3.14f;
+
+	float cross = _lookDir.Cross(monsterToMouseDir);
+	if (cross < 0) {
+		angle = 360 - angle;
 	}
-	else {
-		// mousePos°¡ ¹üÀ§ ³»¿¡ ¾ø´Â °æ¿ì
-	}
 
-	wstring str = std::format(L"c1({0}), c2({1})", c1, c2);
-	Utils::DrawTextW(hdc, { 20, 50 }, str);
+	{
+		wstring str = std::format(L"angle({0})", angle);
+		Utils::DrawTextW(hdc, { 20,50 }, str);
+	}
 }
