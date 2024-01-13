@@ -41,8 +41,8 @@ private:
 	float				_powerPercent = 0;
 	float				_staminaPercent = 0;
 	float				_playerAngle = 0;
-	float				_barrelAngle = 0;
+	float				_barrelAngle = 0;	// ½´ÆÃ ¾Þ±Û
 	bool				_specialWeapon = false;
-	int32				_remainTime = 0;
+	int32				_remainTime = 0;	// Â÷·Ê ³²Àº ½Ã°£
 };
 

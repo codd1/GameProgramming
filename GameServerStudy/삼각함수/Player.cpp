@@ -6,6 +6,8 @@
 #include "ObjectManager.h"
 #include "ResourceManager.h"
 #include "LineMesh.h"
+#include "UiManager.h"
+#include "Bullet.h"
 
 Player::Player() : Object(ObjectType::Player)
 {
@@ -37,6 +39,8 @@ void Player::Update()
 		return;
 	}
 
+	UpdateFireAngle();
+
 	// 누르고 있는 동안 계속 True여야 함. (계속 누르고 있는 경우)
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::A)) {
 		_pos.x -= _stat.speed * deltaTime;
@@ -49,11 +53,11 @@ void Player::Update()
 	}
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::W)) {
-		//_pos.y -= _stat.speed * deltaTime;
+		_fireAngle = ::clamp(_fireAngle + 50 * deltaTime, 0.f, 75.f);	// 0도 ~ 75도 사이
 	}
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::S)) {
-		//_pos.y += _stat.speed * deltaTime;
+		_fireAngle = ::clamp(_fireAngle - 50 * deltaTime, 0.f, 75.f);	// 0도 ~ 75도 사이
 	}
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::Q)) {
@@ -65,9 +69,26 @@ void Player::Update()
 	}
 
 
-	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar)) {
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::SpaceBar)) {
 		// TODO: 미사일 발사
-		
+		float percent = GET_SINGLE(UIManager)->GetPowerPercent();
+		percent = min(100, percent + 100 * deltaTime);
+		GET_SINGLE(UIManager)->SetPowerPercent(percent);
+	}
+
+	if (GET_SINGLE(InputManager)->GetButtonUp(KeyType::SpaceBar)) {
+		// 슈팅
+		_playerTurn = false;	// 슈팅하면 차례 전환
+
+		float percent = GET_SINGLE(UIManager)->GetPowerPercent();
+		float speed = 10.f * percent;
+		float angle = GET_SINGLE(UIManager)->GetBarrelAngle();
+
+		// TODO
+		Bullet* bullet = GET_SINGLE(ObjectManager)->CreateObject<Bullet>();
+		bullet->SetPos(_pos);
+		bullet->SetSpeed(Vector{ speed * ::cos(angle * PI / 180), -1 * speed * ::sin(angle * PI / 180) });
+		GET_SINGLE(ObjectManager)->Add(bullet);
 	}
 }
 
@@ -85,15 +106,24 @@ void Player::Render(HDC hdc)
 			mesh->Render(hdc, _pos, -0.5f, 0.5f);		// 부호 바꾸면 좌우반전
 		}
 	}
+
+	if (_playerTurn) {
+		RECT rect;
+		rect.bottom = static_cast<LONG>(_pos.y - 60);
+		rect.left = static_cast<LONG>(_pos.x - 10);
+		rect.right = static_cast<LONG>(_pos.x + 10);
+		rect.top = static_cast<LONG>(_pos.y - 80);
+
+		HBRUSH brush = ::CreateSolidBrush(RGB(250, 236, 197));
+		HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, brush);
+
+		::Ellipse(hdc, rect.left, rect.top, rect.right, rect.bottom);
+
+		::SelectObject(hdc, oldBrush);
+		::DeleteObject(brush);
+	}
+
 	
-
-	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));		// 빨간색 펜
-	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
-
-	//Utils::DrawLine(hdc, _pos, GetFirePos());
-
-	::SelectObject(hdc, oldPen);		// 잠시 빨간펜으로 그려주고 다시 원래 펜으로 복원해줌
-	::DeleteObject(pen);
 }
 
 wstring Player::GetMeshKey()
@@ -102,4 +132,16 @@ wstring Player::GetMeshKey()
 		return L"MissileTank";
 	}
 	return L"CanonTank";
+}
+
+void Player::UpdateFireAngle()
+{
+	if (_dir == Dir::Left) {	// 왼쪽을 보고 있는 경우
+		GET_SINGLE(UIManager)->SetPlayerAngle(180);
+		GET_SINGLE(UIManager)->SetBarrelAngle(180 - _fireAngle);
+	}
+	else {
+		GET_SINGLE(UIManager)->SetPlayerAngle(0);
+		GET_SINGLE(UIManager)->SetBarrelAngle(_fireAngle);
+	}
 }
