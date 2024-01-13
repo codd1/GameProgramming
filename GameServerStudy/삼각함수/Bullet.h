@@ -12,7 +12,11 @@ public:
 
 	void SetSpeed(Vector speed) { _speed = speed; }
 	Vector GetSpeed() { return _speed; }
+
+	void SetOwner(Object* owner) { _owner = owner; }
+	Object* GetOwner() { return _owner; }
 public:
 	Vector _speed = {};
+	Object* _owner = nullptr;
 };
 
