@@ -6,12 +6,11 @@ enum class SceneType {
 	EditScene,
 };
 
-enum class PlayerType {
-	CanonTank,
-	MissileTank
-};
+enum LAYER_TYPE {
+	LAYER_BACKGROUND,
+	LAYER_OBJECT,
+	// ...
+	LAYER_UI,
 
-enum class Dir {
-	Left,
-	Right
+	LAYER_MAXCOUNT
 };

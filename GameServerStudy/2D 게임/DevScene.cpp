@@ -68,22 +68,24 @@ void DevScene::Init()
 
 		SpriteActor* background = new SpriteActor();
 		background->SetSprite(sprite);
-
+		background->SetLayer(LAYER_BACKGROUND);
 		const Vec2Int size = sprite->GetSize();
 		background->SetPos(Vec2(size.x / 2, size.y / 2));
 
-		_actors.push_back(background);
+		AddActor(background);
 	}
 
 	// 이 부분을 Sprite 위에(보다먼저) 넣으면 어떻게 될까? -> Player 그리고, Sprite를 그린다. (순서)
 	{
 		Player* player = new Player();
-		_actors.push_back(player);
+		AddActor(player);
 	}
 
 	// 모든 Actor들을 순회하면서 실행
-	for (Actor* actor : _actors) {
-		actor->BeginPlay();
+	for (const vector<Actor*>& actors : _actors) {
+		for (Actor* actor : actors) {
+			actor->BeginPlay();
+		}
 	}
 }
 
@@ -94,8 +96,10 @@ void DevScene::Update()
 	// 컴퓨터가 아무리 빨라도 실행 속도 차이 X
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	
-	for (Actor* actor : _actors) {
-		actor->Tick();
+	for (const vector<Actor*>& actors : _actors) {
+		for (Actor* actor : actors) {
+			actor->Tick();
+		}
 	}
 }
 
@@ -106,7 +110,30 @@ void DevScene::Render(HDC hdc)
 	::BitBlt(hdc, 0, 0, GWinSizeX, GWinSizeY, sprite->GetDC(), sprite->GetPos().x, sprite->GetPos().y, SRCCOPY);*/
 
 	// 이제 SpriteActor를 통해 Render를 할 수 있다.
-	for (Actor* actor : _actors) {
-		actor->Render(hdc);
+	for (const vector<Actor*>& actors : _actors) {
+		for (Actor* actor : actors) {
+			actor->Render(hdc);
+		}
 	}
+}
+
+void DevScene::AddActor(Actor* actor)
+{
+	if (actor == nullptr) {
+		return;
+	}
+
+	_actors[actor->GetLayer()].push_back(actor);
+}
+
+void DevScene::RemoveActor(Actor* actor)
+{
+	if (actor == nullptr) {
+		return;
+	}
+
+	vector<Actor*>& v = _actors[actor->GetLayer()];
+
+	// Remove 방법은 많다
+	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
 }
