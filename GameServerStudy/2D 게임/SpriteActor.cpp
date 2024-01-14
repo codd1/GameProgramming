@@ -32,7 +32,17 @@ void SpriteActor::Render(HDC hdc)
 
 	Vec2Int size = _sprite->GetSize();
 
-	::BitBlt(hdc,
+	//::BitBlt(hdc,
+	//	(int32)_pos.x - size.x / 2,		// 플레이어 위치를 기준으로 비트맵 그림 복사
+	//	(int32)_pos.y - size.y / 2,
+	//	size.x,
+	//	size.y,
+	//	_sprite->GetDC(),
+	//	_sprite->GetPos().x,
+	//	_sprite->GetPos().y,
+	//	SRCCOPY);
+
+	::TransparentBlt(hdc,
 		(int32)_pos.x - size.x / 2,		// 플레이어 위치를 기준으로 비트맵 그림 복사
 		(int32)_pos.y - size.y / 2,
 		size.x,
@@ -40,5 +50,7 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetDC(),
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
-		SRCCOPY);
+		_sprite->GetSize().x,
+		_sprite->GetSize().y,
+		_sprite->GetTransparent());
 }

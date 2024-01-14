@@ -57,7 +57,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             // 현재 시간과 이전 틱에서 경과된 시간이 얼마인지 확인하고
             // 특정 시간이 되면 if문에 들어가게 함으로써 프레임이 무한으로 막 늘어나지 않게 조절 가능
-            if (now - prevTick >= 10) {
+            //if (now - prevTick >= 10)
+            {
                 // 게임
                 game.Update();
                 game.Render();

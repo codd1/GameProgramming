@@ -9,6 +9,7 @@
 #include "Actor.h"
 #include "SpriteActor.h"
 #include "Player.h"
+#include "Flipbook.h"
 
 DevScene::DevScene()
 {
@@ -42,20 +43,41 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 150, 0, 150, 150);
 
 	{
-		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
-
-		SpriteActor* background = new SpriteActor();
-		background->SetSprite(sprite);
-		background->SetPos(Vec2(0, 0));
-		_actors.push_back(background);
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
+		Flipbook* flipbook = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveUp");
+		flipbook->SetInfo({ texture, L"FB_MoveUp", {200,200}, 0, 9, 1, 0.5f });		// 이미지 정보를 보고 결정
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
+		Flipbook* flipbook = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveDown");
+		flipbook->SetInfo({ texture, L"FB_MoveDown", {200,200}, 0, 9, 1, 0.5f });		// 이미지 정보를 보고 결정
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
+		Flipbook* flipbook = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveLeft");
+		flipbook->SetInfo({ texture, L"FB_MoveLeft", {200,200}, 0, 9, 1, 0.5f });		// 이미지 정보를 보고 결정
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
+		Flipbook* flipbook = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight");
+		flipbook->SetInfo({ texture, L"FB_MoveRight", {200,200}, 0, 9, 1, 0.5f });		// 이미지 정보를 보고 결정
 	}
 
 	{
 		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
 
+		SpriteActor* background = new SpriteActor();
+		background->SetSprite(sprite);
+
+		const Vec2Int size = sprite->GetSize();
+		background->SetPos(Vec2(size.x / 2, size.y / 2));
+
+		_actors.push_back(background);
+	}
+
+	// 이 부분을 Sprite 위에(보다먼저) 넣으면 어떻게 될까? -> Player 그리고, Sprite를 그린다. (순서)
+	{
 		Player* player = new Player();
-		player->SetSprite(sprite);
-		player->SetPos(Vec2(0, 0));
 		_actors.push_back(player);
 	}
 
