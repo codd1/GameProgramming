@@ -6,6 +6,9 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "Actor.h"
+#include "SpriteActor.h"
+#include "Player.h"
 
 DevScene::DevScene()
 {
@@ -28,8 +31,38 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Edit", L"Sprite\\UI\\Edit.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
 
-	Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Start");
-	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", texture, 150, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 150, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 0, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 150, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 0, 0, 150, 150);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 150, 0, 150, 150);
+
+	{
+		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
+
+		SpriteActor* background = new SpriteActor();
+		background->SetSprite(sprite);
+		background->SetPos(Vec2(0, 0));
+		_actors.push_back(background);
+	}
+
+	{
+		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
+
+		Player* player = new Player();
+		player->SetSprite(sprite);
+		player->SetPos(Vec2(0, 0));
+		_actors.push_back(player);
+	}
+
+	// 모든 Actor들을 순회하면서 실행
+	for (Actor* actor : _actors) {
+		actor->BeginPlay();
+	}
 }
 
 void DevScene::Update()
@@ -39,13 +72,19 @@ void DevScene::Update()
 	// 컴퓨터가 아무리 빨라도 실행 속도 차이 X
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	
-
+	for (Actor* actor : _actors) {
+		actor->Tick();
+	}
 }
 
 void DevScene::Render(HDC hdc)
 {
 	// 비트맵 그림 복사
-	//Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Stage01");
-	Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_On");
-	::BitBlt(hdc, 0, 0, GWinSizeX, GWinSizeY, sprite->GetDC(), sprite->GetPos().x, sprite->GetPos().y, SRCCOPY);
+	/*Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_On");
+	::BitBlt(hdc, 0, 0, GWinSizeX, GWinSizeY, sprite->GetDC(), sprite->GetPos().x, sprite->GetPos().y, SRCCOPY);*/
+
+	// 이제 SpriteActor를 통해 Render를 할 수 있다.
+	for (Actor* actor : _actors) {
+		actor->Render(hdc);
+	}
 }

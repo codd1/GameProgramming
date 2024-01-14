@@ -1,5 +1,8 @@
 #pragma once
 #include "Scene.h"
+
+class Actor;
+
 class DevScene : public Scene
 {
 public:
@@ -11,6 +14,6 @@ public:
 	virtual void Render(HDC hdc) override;
 
 public:
-	
+	vector<Actor*> _actors;
 };
 
