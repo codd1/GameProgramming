@@ -10,6 +10,9 @@
 #include "SpriteActor.h"
 #include "Player.h"
 #include "Flipbook.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 DevScene::DevScene()
 {
@@ -81,6 +84,29 @@ void DevScene::Init()
 		AddActor(player);
 	}
 
+	{
+		Player* player = new Player();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(100);
+			player->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+		}
+		AddActor(player);
+	}
+
+	{
+		Actor* actor = new Actor();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(50);
+			actor->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			actor->SetPos({ 400,200 });
+		}
+		AddActor(actor);
+	}
+
 	// 모든 Actor들을 순회하면서 실행
 	for (const vector<Actor*>& actors : _actors) {
 		for (Actor* actor : actors) {
@@ -96,6 +122,8 @@ void DevScene::Update()
 	// 컴퓨터가 아무리 빨라도 실행 속도 차이 X
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	
+	GET_SINGLE(CollisionManager)->Update();		// 충돌 확인
+
 	for (const vector<Actor*>& actors : _actors) {
 		for (Actor* actor : actors) {
 			actor->Tick();

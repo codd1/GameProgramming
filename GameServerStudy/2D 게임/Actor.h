@@ -1,6 +1,7 @@
 #pragma once
 
 class Component;
+class Collider;
 
 class Actor
 {
@@ -20,6 +21,10 @@ public:
 
 	void AddComponent(Component* component);
 	void RemoveComponent(Component* component);
+
+	// OnCollisionEnter2D / OnCollisionExit2D
+	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other);
+	virtual void OnComponentEndOverlap(Collider* collider, Collider* other);
 protected:
 	Vec2 _pos = { 0,0 };
 	LAYER_TYPE _layer = LAYER_OBJECT;
