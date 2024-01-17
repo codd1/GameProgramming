@@ -13,6 +13,9 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
+#include "UI.h"
+#include "Button.h"
+#include "TestPanel.h"
 
 DevScene::DevScene()
 {
@@ -107,11 +110,22 @@ void DevScene::Init()
 		AddActor(actor);
 	}
 
+	{
+		// Button -> TestPanel 수정
+		TestPanel* button = new TestPanel();
+
+		_uis.push_back(button);
+	}
+
 	// 모든 Actor들을 순회하면서 실행
 	for (const vector<Actor*>& actors : _actors) {
 		for (Actor* actor : actors) {
 			actor->BeginPlay();
 		}
+	}
+
+	for (UI* ui : _uis) {
+		ui->BeginPlay();
 	}
 }
 
@@ -129,6 +143,10 @@ void DevScene::Update()
 			actor->Tick();
 		}
 	}
+
+	for (UI* ui : _uis) {
+		ui->Tick();
+	}
 }
 
 void DevScene::Render(HDC hdc)
@@ -142,6 +160,10 @@ void DevScene::Render(HDC hdc)
 		for (Actor* actor : actors) {
 			actor->Render(hdc);
 		}
+	}
+
+	for (UI* ui : _uis) {
+		ui->Render(hdc);
 	}
 }
 
