@@ -10,7 +10,7 @@ ResourceManager::~ResourceManager()
 void ResourceManager::Init()
 {
 	LineMesh* mesh = new LineMesh();
-	mesh->Load(L"Player.txt");
+	mesh->Load(L"C:\\Users\\CYHONG\\source\\repos\\GameProgramming\\GameServerStudy\\Windows API\\Player.txt");
 
 	_lineMeshes[L"Player"] = mesh;
 }

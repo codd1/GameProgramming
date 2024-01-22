@@ -38,7 +38,7 @@ void EditScene::Update()
 	// Save
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::S)) {
 		wofstream file;
-		file.open(L"Unit.txt");
+		file.open(L"C:\\Users\\CYHONG\\source\\repos\\GameProgramming\\GameServerStudy\\Windows API\\Unit.txt");
 
 		// 선으로 그린 그림의 중앙을 구하기 위함
 		int32 minX = INT32_MAX;
@@ -85,7 +85,7 @@ void EditScene::Update()
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::D)) {
 		// Save 파일 가져오기
 		wifstream file;
-		file.open(L"Unit.txt");
+		file.open(L"C:\\Users\\CYHONG\\source\\repos\\GameProgramming\\GameServerStudy\\Windows API\\Unit.txt");
 
 		// 라인 갯수
 		int32 count;
