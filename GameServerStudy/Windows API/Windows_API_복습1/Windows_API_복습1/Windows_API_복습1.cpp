@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "Windows_API_복습1.h"
+#include "Game.h"
 
 #define MAX_LOADSTRING 100
 
@@ -32,13 +33,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    Game game;
+    game.Init(g_hWnd);
+
     MSG msg = {};
     uint64 prevTick = 0;
 
     // 기본 메시지 루프입니다:
     while (msg.message != WM_QUIT)
     {
-        if (::PeekMessage(&msg, NULL, 0,0,PM_REMOVE))
+        if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
@@ -51,6 +55,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             
             // 즉, 지정된 시간 간격(여기서는 10 밀리초)마다 특정 작업을 수행하도록 조건을 설정
             if (now - prevTick >= 10) {
+                game.Update();
+
                 prevTick = now;
             }
         }
