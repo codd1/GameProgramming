@@ -17,5 +17,8 @@ private:
 	HDC _hdc = {};
 
 	RECT _rect = {};
+
+private:
+
 };
 

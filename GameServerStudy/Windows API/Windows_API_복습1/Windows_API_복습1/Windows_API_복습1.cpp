@@ -55,8 +55,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             
             // 즉, 지정된 시간 간격(여기서는 10 밀리초)마다 특정 작업을 수행하도록 조건을 설정
             if (now - prevTick >= 10) {
-                game.Update();
 
+                // 16. Update() 구현
+                game.Update();
+                // 21. Render() 구현 (아직 GameScene::Update() 구현 X / 확인을 위해 Render() 먼저 구현)
+                game.Render();
                 prevTick = now;
             }
         }
@@ -107,9 +110,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   // 창 크기 조절
+   RECT windowRect = { 0, 0, 800, 600 };
+   ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false); // 보통 CreateWindowEx 함수로 윈도우를 생성하기 전에 윈도우의 크기를 미리 계산하고자 할 때 사용
+
    // 겹치는 팝업 또는 자식 창을 만듭니다. 창 클래스, 창 제목, 창 스타일 및 창의 초기 위치 및 크기(선택 사항)를 지정합니다.
    HWND hWnd = CreateWindowW(L"Windows API", L"Client", WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+       CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
 
    g_hWnd = hWnd;
 

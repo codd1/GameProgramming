@@ -30,8 +30,8 @@ enum class KeyState {
 // enum과 enum class의 차이?
 // 요약하면, enum은 간단하고 enum class는 깐깐하다. 하지만 깐깐한 덕분에 오류 발생률 ↓ (안전)
 enum {
-	KEY_TYPE_COUNT = static_cast<int32>(UINT8_MAX) +1,
-	KEY_STATE_COUNT = static_cast<int32>(KeyState::End)
+	KEY_TYPE_COUNT = static_cast<int32>(UINT8_MAX) +1,		// = 256
+	KEY_STATE_COUNT = static_cast<int32>(KeyState::End)		// = 4
 };
 
 class InputManager
@@ -58,9 +58,12 @@ public:
 	// 이 키가 현재 입력되지 않은 상태이면서 이전 프레임에는 입력되었던 상태
 	bool GetButtonUp(KeyType key) { return GetState(key) == KeyState::Up; }
 
+	POINT GetMousePos() { return _mousePos; }
+
 private:
 	HWND _hwnd = {};
 	vector<KeyState> _states;
 
+	POINT _mousePos;
 };
 

@@ -26,7 +26,7 @@ void Game::Init(HWND hwnd)
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(ResourceManager)->Init();
 
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::GameScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::EditScene);
 }
 
 void Game::Update()
@@ -38,4 +38,20 @@ void Game::Update()
 
 void Game::Render()
 {
+	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
+	{	// 마우스 좌표를 가져와서 화면에 (format에 맞춰) 마우스 좌표 출력
+		POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
+		wstring str = format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
+		::TextOut(_hdc, 20, 10, str.c_str(), str.size());	// 화면에 텍스트 출력
+	}
+	{	// Fps, DT(델타타임) 출력
+		wstring str = format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
+		::TextOut(_hdc, 650, 10, str.c_str(), str.size());
+	}
+
+	GET_SINGLE(SceneManager)->Render(_hdc);
+
+	// TODO: 더블버퍼링
 }

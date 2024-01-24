@@ -8,12 +8,20 @@ void SceneManager::Init()
 {
 }
 
+// 18. SceneManager::Update() 구현
 void SceneManager::Update()
 {
+	if (_scene) {
+		_scene->Update();	// DevScene, EditScene, GameScene
+	}
 }
 
+// 22. SceneManager::Render 구현
 void SceneManager::Render(HDC hdc)
 {
+	if (_scene) {
+		_scene->Render(hdc);	// DevScene, EditScene, GameScene
+	}
 }
 
 void SceneManager::ChangeScene(SceneType sceneType)
