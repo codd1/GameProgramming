@@ -23,5 +23,8 @@ public:
 
 private:
 	vector<Object*> _objects;
+
+public:
+	const vector<Object*>& GetObjects() { return _objects; }
 };
 

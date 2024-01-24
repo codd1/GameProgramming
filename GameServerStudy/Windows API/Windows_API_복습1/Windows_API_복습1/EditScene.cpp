@@ -81,6 +81,7 @@ void EditScene::Update()
 			file << str << endl;
 		}
 
+		file.close();
 	}
 
 	// DŰ -> Load
@@ -117,6 +118,8 @@ void EditScene::Update()
 			_lines.push_back(make_pair(pt1, pt2));
 			_isFirst = true;
 		}
+
+		file.close();
 	}
 }
 

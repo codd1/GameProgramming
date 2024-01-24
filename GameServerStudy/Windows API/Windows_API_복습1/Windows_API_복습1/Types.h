@@ -15,3 +15,10 @@ struct Pos {
 	float x = 0;
 	float y = 0;
 };
+
+// 27. Stat 구조체 추가
+struct Stat {
+	int32 hp = 0;
+	int32 maxHp = 0;
+	float speed = 0.f;
+};

@@ -28,10 +28,21 @@ void GameScene::Init()
 	}
 }
 
+// 25. GameScene::Update() 구현 (DevScene, EditScene 구현, 확인 후 GameScene)
 void GameScene::Update()
 {
+	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();
+
+	for (Object* object : objects) {
+		object->Update();
+	}
 }
 
+// 29. GameScene::Render() 구현
 void GameScene::Render(HDC hdc)
 {
+	const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+	for (Object* object : objects) {
+		object->Render(hdc);
+	}
 }
