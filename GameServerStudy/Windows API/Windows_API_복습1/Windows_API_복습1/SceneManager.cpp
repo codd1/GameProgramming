@@ -24,6 +24,11 @@ void SceneManager::Render(HDC hdc)
 	}
 }
 
+void SceneManager::Clear()
+{
+	SAFE_DELETE(_scene);
+}
+
 void SceneManager::ChangeScene(SceneType sceneType)
 {
 	if (_sceneType == sceneType) {

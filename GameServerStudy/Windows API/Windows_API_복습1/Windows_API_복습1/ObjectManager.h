@@ -7,6 +7,8 @@ class ObjectManager
 {
 public:
 	DECLARE_SINGLE(ObjectManager);
+	// 41. ObjectManager 소멸자 추가
+	~ObjectManager();
 
 	// 일반적으로 vector를 포인터를 원소로 갖는 멤버 변수로 선언할 때는 Add, Remove와 같은 함수를 같이 선언
 	void Add(Object* object);
@@ -26,5 +28,8 @@ private:
 
 public:
 	const vector<Object*>& GetObjects() { return _objects; }
+
+	// 40. Clear() 함수 추가
+	void Clear();
 };
 

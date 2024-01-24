@@ -10,6 +10,9 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+	// 42. Clear() 함수 구현
+	void Clear();
+
 	void ChangeScene(SceneType sceneType);
 
 private:

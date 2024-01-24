@@ -4,6 +4,8 @@
 #include "InputManager.h"
 #include "LineMesh.h"
 #include "ResourceManager.h"
+#include "Missile.h"
+#include "ObjectManager.h"
 
 Player::Player() : Object(ObjectType::Player)
 {
@@ -49,7 +51,11 @@ void Player::Update()
 	}
 
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar)) {
-		// TODO: 미사일 발사
+		// 37. 미사일 충돌 전 미사일 발사 구현
+		Missile* missile = GET_SINGLE(ObjectManager)->CreateObject<Missile>();
+		missile->SetPos(_pos);
+		GET_SINGLE(ObjectManager)->Add(missile);
+		// 실행해서 발사되는지 확인
 	}
 }
 

@@ -7,10 +7,16 @@
 
 Game::Game()
 {
+	int* p = new int();
 }
 
 Game::~Game()
 {
+	// 43. 소멸자에서 Clear() 호출
+	GET_SINGLE(SceneManager)->Clear();
+	GET_SINGLE(ResourceManager)->Clear();
+
+	::_CrtDumpMemoryLeaks();
 }
 
 void Game::Init(HWND hwnd)
@@ -59,7 +65,6 @@ void Game::Render()
 
 	GET_SINGLE(SceneManager)->Render(_hdcBack);
 
-	// TODO: 더블버퍼링
 	// 35. Player 이동 시에 잔상이 남아있는 문제 -> 더블버퍼링으로 해결 (Init, Render)
 	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY);
 	::PatBlt(_hdcBack, 0, 0, _rect.right, _rect.bottom, WHITENESS);
