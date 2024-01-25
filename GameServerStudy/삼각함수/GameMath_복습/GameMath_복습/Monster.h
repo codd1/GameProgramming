@@ -11,5 +11,10 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
+
+private:
+	// 몬스터가 움직일 수 있는 범위(선)
+	Vector _start = { 300, 300 };
+	Vector _end = { 600,250 };
 };
 

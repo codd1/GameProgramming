@@ -87,6 +87,11 @@ struct Vector {
 		y /= length;
 	}
 
+	// 51. 내적 함수 추가
+	float Dot(Vector other) {	// 내적
+		return x * other.x + y * other.y;
+	}
+
 	float x = 0;
 	float y = 0;
 };
