@@ -51,6 +51,7 @@ void Missile::Update()
 		if (dist < 25) {
 			GET_SINGLE(ObjectManager)->Remove(object);	// 몬스터 제거
 			GET_SINGLE(ObjectManager)->Remove(this);	// 나(미사일) 제거
+			return;		// 리턴이 없어서 오류 발생.... (리턴 넣고 해결)
 		}
 	}
 

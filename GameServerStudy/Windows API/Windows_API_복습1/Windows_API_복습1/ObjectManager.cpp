@@ -32,14 +32,6 @@ void ObjectManager::Remove(Object* object)
 	}
 
 	auto findIter = remove(_objects.begin(), _objects.end(), object);	// #include <algorithm>
-	
-	// TODO: 아래 조건이 없는 경우 오류 발생!!! -> why?
-	if (findIter == _objects.end()) {	// 범위 내에 object가 없는 경우 
-		return;
-	}
-
-	// object = 5
-	// [ 1, 2, 3, 5, 5 ] --remove--> [ 1, 2, 3,v 5, 5 ] --erase--> [ 1, 2, 3 ]
 	_objects.erase(findIter, _objects.end());
 
 	delete object;
