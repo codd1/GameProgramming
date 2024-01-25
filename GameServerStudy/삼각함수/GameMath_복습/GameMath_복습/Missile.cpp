@@ -23,7 +23,14 @@ void Missile::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	_pos.y -= deltaTime * _stat.speed;		// 위쪽 방향으로 발사
+	// 48. 포신의 방향대로 발사되게 수정 (기존: 위쪽으로만 발사)
+	//_pos.y -= deltaTime * _stat.speed;		// 위쪽 방향으로 발사
+
+	// 구해야하는 값: 포신의 끝 좌표
+	// 거리(길이) = 속도 * 시간
+	// 거리(길이) * cosθ = 밑변 = _pos.x
+	_pos.x += _stat.speed * deltaTime * ::cos(_angle);
+	_pos.y -= _stat.speed * deltaTime * ::sin(_angle);
 
 	// 38. 미사일 충돌 구현
 	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();

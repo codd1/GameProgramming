@@ -53,9 +53,20 @@ void Player::Update()
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar)) {
 		// 37. 미사일 충돌 전 미사일 발사 구현
 		Missile* missile = GET_SINGLE(ObjectManager)->CreateObject<Missile>();
-		missile->SetPos(_pos);
+		// 47. 
+		missile->SetPos(GetFirePos());	// 이제 Player 몸통이 아니라 포신의 좌표에서 미사일이 나가게 수정함.
+		missile->SetAngle(_barrelAngle);	// 미사일 각도 세팅
 		GET_SINGLE(ObjectManager)->Add(missile);
 		// 실행해서 발사되는지 확인
+	}
+
+	// 44. 미사일 발사 각도를 Q, E 키로 조절 가능 (KeyType Q, E 추가)
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::Q)) {
+		_barrelAngle += 10 * deltaTime;
+	}
+
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::E)) {
+		_barrelAngle -= 10 * deltaTime;
 	}
 }
 
@@ -72,4 +83,24 @@ void Player::Render(HDC hdc)
 
 	// 확인을 위해 따로 Player.txt 파일을 만들어준다.
 	// --> 지금은 Unit.txt를 복사해서 이름만 바꿔서 쓰겠다.
+
+	// 45. 선의 to를 구해야한다.
+	Utils::DrawLine(hdc, _pos, GetFirePos());
+}
+
+// 46. GetFirePos() 함수 구현 후 Utils::DrawLine에 인자로 넘겨줌
+Pos Player::GetFirePos()
+{
+	// 구하려는 값: 미사일 발사대 끝의 좌표
+	// 현재 알고 있는 값: 빗변(=_barrelLength), θ(=_barrelAngle)
+	Pos firePos = _pos;
+
+	// firePos.x = 밑변
+	// cosθ = 밑변 / 빗변	--->	밑변 = 빗변 * cosθ
+	firePos.x += _barrelLength * ::cos(_barrelAngle);
+
+	// firePos.y = 높이
+	// sinθ = 높이 / 빗변	--->	높이 = 빗변 * sinθ
+	firePos.y -= _barrelLength * ::sin(_barrelAngle);
+	return firePos;
 }
