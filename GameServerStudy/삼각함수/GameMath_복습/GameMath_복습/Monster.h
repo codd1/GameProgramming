@@ -13,9 +13,8 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
-	Vector _pt1 = { 400,150 };
-	Vector _pt2 = { 600,450 };
-	Vector _pt3 = { 200,450 };
+	Vector _lookPos = {};	// 몬스터가 바라보는 좌표
+	Vector _lookDir = {};
 
 	RECT rect = { 20, 130, 100, 170 };
 };

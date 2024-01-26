@@ -15,7 +15,6 @@ void GameScene::Init()
 {
 	// 54. 몬스터 1개로
 	Monster* monster = GET_SINGLE(ObjectManager)->CreateObject<Monster>();
-	monster->SetPos(Pos{ 400,400 });
 	GET_SINGLE(ObjectManager)->Add(monster);
 }
 
