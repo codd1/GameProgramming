@@ -13,8 +13,10 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
-	// 몬스터가 움직일 수 있는 범위(선)
-	Vector _start = { 300, 300 };
-	Vector _end = { 600,250 };
+	Vector _pt1 = { 400,150 };
+	Vector _pt2 = { 600,450 };
+	Vector _pt3 = { 200,450 };
+
+	RECT rect = { 20, 130, 100, 170 };
 };
 

@@ -92,6 +92,11 @@ struct Vector {
 		return x * other.x + y * other.y;
 	}
 
+	// 55. 외적 함수 추가
+	float Cross(Vector other) {
+		return x * other.y - y * other.x;
+	}
+
 	float x = 0;
 	float y = 0;
 };
