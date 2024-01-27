@@ -12,5 +12,8 @@ public:
 
 protected:
 	vector<pair<POINT, POINT>> _lines;
+
+	int32 _width = 0;
+	int32 _height = 0;
 };
 

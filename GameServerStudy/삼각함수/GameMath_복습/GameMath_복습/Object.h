@@ -29,5 +29,7 @@ protected:
 	Pos _pos = {};
 
 	Stat _stat = {};
+	
+	Dir _dir = Dir::Left;
 };
 

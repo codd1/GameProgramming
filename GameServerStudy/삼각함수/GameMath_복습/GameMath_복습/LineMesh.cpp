@@ -72,6 +72,26 @@ void LineMesh::Load(wstring path)
 	}
 
 	file.close();
+
+	// 64. LineMesh::Load(wstring path) 아래부분 추가
+	// width, height
+	/*int32 minX = INT32_MAX;
+	int32 maxX = INT32_MIN;
+	int32 minY = INT32_MAX;
+	int32 maxY = INT32_MIN;
+
+	for (auto& line : _lines) {
+		POINT from = line.first;
+		POINT to = line.second;
+
+		minX = min(min(minX, from.x), to.x);
+		maxX = max(max(maxX, from.x), to.x);
+		minY = min(min(minY, from.y), to.y);
+		maxY = max(max(maxY, from.y), to.y);
+	}
+
+	_width = maxX - minX;
+	_height = maxY - minY;*/
 }
 
 void LineMesh::Render(HDC hdc, Pos pos) const

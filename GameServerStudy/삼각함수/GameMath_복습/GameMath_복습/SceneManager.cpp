@@ -2,7 +2,9 @@
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "EditScene.h"
-#include "GameScene.h"
+//#include "GameScene.h"	// 주석처리 안 하면 링커 오류 발생
+#include "MenuScene.h"
+#include "FortressScene.h"
 
 void SceneManager::Init()
 {
@@ -42,11 +44,15 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	case SceneType::DevScene:
 		newScene = new DevScene();
 		break;
-	case SceneType::GameScene:
-		newScene = new GameScene();
-		break;
 	case SceneType::EditScene:
 		newScene = new EditScene();
+		break;
+	// 62. case 추가
+	case SceneType::MenuScene:
+		newScene = new MenuScene();
+		break;
+	case SceneType::FortressScene:
+		newScene = new FortressScene();
 		break;
 	}
 
