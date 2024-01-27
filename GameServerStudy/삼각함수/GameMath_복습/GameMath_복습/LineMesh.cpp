@@ -75,7 +75,7 @@ void LineMesh::Load(wstring path)
 
 	// 64. LineMesh::Load(wstring path) 아래부분 추가
 	// width, height
-	/*int32 minX = INT32_MAX;
+	int32 minX = INT32_MAX;
 	int32 maxX = INT32_MIN;
 	int32 minY = INT32_MAX;
 	int32 maxY = INT32_MIN;
@@ -91,23 +91,23 @@ void LineMesh::Load(wstring path)
 	}
 
 	_width = maxX - minX;
-	_height = maxY - minY;*/
+	_height = maxY - minY;
 }
 
-void LineMesh::Render(HDC hdc, Pos pos) const
+void LineMesh::Render(HDC hdc, Pos pos, float ratioX, float ratioY) const
 {
 	for (auto& line : _lines) {
 		POINT pt1 = line.first;
 		POINT pt2 = line.second;
 
-		// 인자로 받아온 pos를 기준으로 선들을 그린다.
+		// 인자로 받아온 pos를 기준으로 선들을 그린다. (UI)
 		Pos pos1;
-		pos1.x = pos.x + (float)pt1.x;
-		pos1.y = pos.y + (float)pt1.y;
+		pos1.x = pos.x + (float)pt1.x * ratioX;		// ratioX만큼 확대/축소 가능
+		pos1.y = pos.y + (float)pt1.y * ratioY;
 
 		Pos pos2;
-		pos2.x = pos.x + (float)pt2.x;
-		pos2.y = pos.y + (float)pt2.y;
+		pos2.x = pos.x + (float)pt2.x * ratioX;
+		pos2.y = pos.y + (float)pt2.y * ratioY;
 
 		Utils::DrawLine(hdc, pos1, pos2);
 	}

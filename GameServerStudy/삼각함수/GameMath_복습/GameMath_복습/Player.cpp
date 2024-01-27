@@ -56,18 +56,19 @@ void Player::Update()
 
 // 33. Player::Render() 구현
 // 74. Player::Render(HDC hdc) 수정
+// 76. LineMesh 클래스의 매개변수 추가로, Player::Render도 매개변수 추가
 void Player::Render(HDC hdc)
 {
 	if (_dir == Dir::Left) {	// 왼쪽 이동 시
 		const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(GetMeshKey());
 		if (mesh) {
-			mesh->Render(hdc, _pos);
+			mesh->Render(hdc, _pos, 0.5f, 0.5f);	// UI 0.5배
 		}
 	}
 	else {						// 오른쪽 이동 시
 		const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(GetMeshKey());
 		if (mesh) {
-			mesh->Render(hdc, _pos);
+			mesh->Render(hdc, _pos, -0.5f, 0.5f);	// <- 방향으로 이동 = x좌표 (-) + UI 0.5배
 		}
 	}
 }

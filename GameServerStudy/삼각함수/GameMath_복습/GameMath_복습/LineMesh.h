@@ -8,7 +8,8 @@ public:
 	void Save(wstring path);
 	void Load(wstring path);
 
-	void Render(HDC hdc, Pos pos) const;
+	// 75. UI 크기 조정을 위해 매개변수 추가 + 함수 내용 수정
+	void Render(HDC hdc, Pos pos, float ratioX = 1.f, float ratioY = 1.f) const;
 
 protected:
 	vector<pair<POINT, POINT>> _lines;
