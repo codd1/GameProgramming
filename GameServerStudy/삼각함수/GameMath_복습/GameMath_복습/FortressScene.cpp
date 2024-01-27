@@ -93,7 +93,7 @@ void FortressScene::ChangePlayerTurn()
 	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();
 	for (Object* object : objects) {
 		if (object->GetObjectType() != ObjectType::Player) {
-			return;
+			continue;		// 오타수정: return -> continue;
 		}
 
 		Player* player = static_cast<Player*>(object);

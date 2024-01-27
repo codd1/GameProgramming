@@ -17,5 +17,10 @@ public:
 
 public:
 	Vector _speed = {};
+	Object* _owner = nullptr;
+
+public:
+	void SetOwner(Object* owner) { _owner = owner; }
+	Object* GetOwner() { return _owner; }
 };
 

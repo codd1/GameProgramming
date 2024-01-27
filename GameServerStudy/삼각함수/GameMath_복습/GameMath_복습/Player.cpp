@@ -64,7 +64,7 @@ void Player::Update()
 	}
 
 	// 83. 미사일 발사 힘 게이지 세팅 (게이지가 높을수록 발사 속도가 빨라짐)
-	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar)) {
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::SpaceBar)) {	// 오타수정: GetButtonDown -> GetButton
 		float percent = GET_SINGLE(UIManager)->GetPowerPercent();	// default: 0
 		percent = min(100, percent + 100 * deltaTime);
 		GET_SINGLE(UIManager)->SetPowerPercent(percent);
@@ -84,6 +84,9 @@ void Player::Update()
 
 		// 정규화(빗변 길이 1)가 됐다는 가정하에, cos과 sin으로 x, y 좌표를 구하고 각각 speed를 곱해서 세팅해줌.
 		bullet->SetSpeed(Vector{ speed * ::cos(angle * PI / 180), -1 * speed * ::sin(angle * PI / 180) });
+
+		// 90. Owner 세팅
+		bullet->SetOwner(this);
 
 		GET_SINGLE(ObjectManager)->Add(bullet);
 	}
