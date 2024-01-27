@@ -6,6 +6,8 @@
 #include "ResourceManager.h"
 #include "Missile.h"
 #include "ObjectManager.h"
+#include "UIManager.h"
+#include "Bullet.h"
 
 Player::Player() : Object(ObjectType::Player)
 {
@@ -36,6 +38,9 @@ void Player::Update()
 		return;
 	}
 
+	// 86. 함수 추가/구현
+	UpdateFireAngle();
+
 	// 사용자의 키 입력에 따라 플레이어를 움직임
 	// 키가 눌려져 있는 경우에만 플레이어의 위치 업데이트
 	// 누르고 있는동안 계속 true여야 함. (계속 누르고 있는 경우)
@@ -49,8 +54,38 @@ void Player::Update()
 		_dir = Dir::Right;
 	}
 
+	// 85. W, S키를 통해 미사일 각도 설정
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::W)) {
+		_fireAngle = ::clamp(_fireAngle + 50 * deltaTime, 0.f, 75.f);	// 0도 ~ 75도 사이로 각도 제한
+	}
+
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::S)) {
+		_fireAngle = ::clamp(_fireAngle - 50 * deltaTime, 0.f, 75.f);	// 0도 ~ 75도 사이로 각도 제한
+	}
+
+	// 83. 미사일 발사 힘 게이지 세팅 (게이지가 높을수록 발사 속도가 빨라짐)
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar)) {
-		// TODO: 미사일 발사
+		float percent = GET_SINGLE(UIManager)->GetPowerPercent();	// default: 0
+		percent = min(100, percent + 100 * deltaTime);
+		GET_SINGLE(UIManager)->SetPowerPercent(percent);
+	}
+
+	// 84. 마우스 떼면 미사일 발사
+	if (GET_SINGLE(InputManager)->GetButtonUp(KeyType::SpaceBar)) {
+		_playerTurn = false;
+
+		float percent = GET_SINGLE(UIManager)->GetPowerPercent();
+		float speed = 10.f * percent;	// 게이지에 따라 speed 설정
+		float angle = GET_SINGLE(UIManager)->GetBarrelAngle();
+
+		// Bullet 객체 생성 및 기본 세팅
+		Bullet* bullet = GET_SINGLE(ObjectManager)->CreateObject<Bullet>();
+		bullet->SetPos(_pos);		// Player의 위치에서 Bullet이 나가도록 함.
+
+		// 정규화(빗변 길이 1)가 됐다는 가정하에, cos과 sin으로 x, y 좌표를 구하고 각각 speed를 곱해서 세팅해줌.
+		bullet->SetSpeed(Vector{ speed * ::cos(angle * PI / 180), -1 * speed * ::sin(angle * PI / 180) });
+
+		GET_SINGLE(ObjectManager)->Add(bullet);
 	}
 }
 
@@ -80,4 +115,16 @@ wstring Player::GetMeshKey()
 		return L"MissileTank";
 	}
 	return L"CanonTank";
+}
+
+void Player::UpdateFireAngle()
+{
+	if (_dir == Dir::Left) {	// 왼쪽을 바라보는 경우
+		GET_SINGLE(UIManager)->SetPlayerAngle(180);
+		GET_SINGLE(UIManager)->SetBarrelAngle(180 - _fireAngle);
+	}
+	else {						// 오른쪽을 바라보는 경우
+		GET_SINGLE(UIManager)->SetPlayerAngle(0);
+		GET_SINGLE(UIManager)->SetBarrelAngle(_fireAngle);
+	}
 }

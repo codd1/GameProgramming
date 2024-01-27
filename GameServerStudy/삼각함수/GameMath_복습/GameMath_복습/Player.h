@@ -29,5 +29,7 @@ public:
 	bool GetPlayerTurn() { return _playerTurn; }
 
 	wstring GetMeshKey();
+
+	void UpdateFireAngle();
 };
 

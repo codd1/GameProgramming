@@ -24,6 +24,10 @@ public:
 	void SetPos(Pos pos) { _pos = pos; }
 	Pos GetPos() { return _pos; }
 
+	// 81. 필요한 멤버변수, 메소드 추가
+	void SetRadius(float radius) { _radius = radius; }
+	float GetRadius() { return _radius; }
+
 protected:
 	ObjectType _type = ObjectType::None;
 	Pos _pos = {};
@@ -31,5 +35,7 @@ protected:
 	Stat _stat = {};
 	
 	Dir _dir = Dir::Left;
+
+	float _radius = 50.f;	// Bullet (반지름) 크기
 };
 

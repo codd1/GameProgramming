@@ -47,7 +47,7 @@ void FortressScene::Init()
 // 70. FortressScene::Update() ±¸Çö
 void FortressScene::Update()
 {
-	const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+	const vector<Object*> objects = GET_SINGLE(ObjectManager)->GetObjects();
 
 	for (Object* object : objects) {
 		object->Update();
