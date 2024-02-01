@@ -19,14 +19,12 @@ using uint64 = unsigned __int64;
 //	float y = 0;
 //};
 
-// 27. Stat 구조체 추가
 struct Stat {
 	int32 hp = 0;
 	int32 maxHp = 0;
 	float speed = 0.f;
 };
 
-// 49. Vector 구조체 추가 (기존의 Pos 삭제)
 struct Vector {
 	Vector(){ }
 	Vector(float x, float y):x(x), y(y){ }
@@ -87,13 +85,11 @@ struct Vector {
 		y /= length;
 	}
 
-	// 51. 내적 함수 추가
 	float Dot(Vector other) {	// 내적
 		return x * other.x + y * other.y;
 	}
 
-	// 55. 외적 함수 추가
-	float Cross(Vector other) {
+	float Cross(Vector other) {	// 외적
 		return x * other.y - y * other.x;
 	}
 

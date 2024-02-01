@@ -1,6 +1,5 @@
 #pragma once
 
-// 2. pch, Types.h »ý¼º
 #include "Types.h"
 #include "Defines.h"
 #include "Enums.h"

@@ -3,14 +3,11 @@
 #include "DevScene.h"
 #include "EditScene.h"
 //#include "GameScene.h"	// 주석처리 안 하면 링커 오류 발생
-#include "MenuScene.h"
-#include "FortressScene.h"
 
 void SceneManager::Init()
 {
 }
 
-// 18. SceneManager::Update() 구현
 void SceneManager::Update()
 {
 	if (_scene) {
@@ -18,7 +15,6 @@ void SceneManager::Update()
 	}
 }
 
-// 22. SceneManager::Render 구현
 void SceneManager::Render(HDC hdc)
 {
 	if (_scene) {
@@ -46,13 +42,6 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::EditScene:
 		newScene = new EditScene();
-		break;
-	// 62. case 추가
-	case SceneType::MenuScene:
-		newScene = new MenuScene();
-		break;
-	case SceneType::FortressScene:
-		newScene = new FortressScene();
 		break;
 	}
 

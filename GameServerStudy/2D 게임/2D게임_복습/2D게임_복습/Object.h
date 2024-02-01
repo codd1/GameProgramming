@@ -1,6 +1,5 @@
 #pragma once
 
-// 12. Object 클래스 생성 (순수가상함수)
 enum class ObjectType {
 	None,
 	Player,
@@ -24,7 +23,6 @@ public:
 	void SetPos(Pos pos) { _pos = pos; }
 	Pos GetPos() { return _pos; }
 
-	// 81. 필요한 멤버변수, 메소드 추가
 	void SetRadius(float radius) { _radius = radius; }
 	float GetRadius() { return _radius; }
 

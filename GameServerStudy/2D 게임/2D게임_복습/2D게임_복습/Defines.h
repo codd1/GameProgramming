@@ -1,5 +1,4 @@
 #pragma once
-// 4. Defines.h 생성
 
 /*
 	C++의 특정 클래스를 싱글톤(Singleton) 디자인 패턴으로 구현하기 위한 매크로

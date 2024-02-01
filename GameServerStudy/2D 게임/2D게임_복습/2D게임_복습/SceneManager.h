@@ -1,7 +1,6 @@
 #pragma once
 class Scene;
 
-// 7. SceneManager 생성
 class SceneManager
 {
 public:
@@ -12,7 +11,6 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	// 42. Clear() 함수 구현
 	void Clear();
 
 	void ChangeScene(SceneType sceneType);
@@ -24,7 +22,6 @@ private:
 	SceneType _sceneType = SceneType::None;
 
 public:
-	// 82. 필요한 메서드 추가
 	Scene* GetCurrentScene() { return _scene; }
 };
 

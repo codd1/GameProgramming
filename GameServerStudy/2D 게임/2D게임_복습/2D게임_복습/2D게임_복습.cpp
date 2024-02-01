@@ -1,9 +1,8 @@
 ﻿// Windows_API_복습.cpp : 애플리케이션에 대한 진입점을 정의합니다.
-// 1. 메인(기본 cpp 파일) 정리
 
 #include "pch.h"
 #include "framework.h"
-#include "GameMath_복습.h"
+#include "2D게임_복습.h"
 #include "Game.h"
 
 #define MAX_LOADSTRING 100
@@ -53,10 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             
             // 즉, 지정된 시간 간격(여기서는 10 밀리초)마다 특정 작업을 수행하도록 조건을 설정
             if (now - prevTick >= 10) {
-
-                // 16. Update() 구현
                 game.Update();
-                // 21. Render() 구현 (아직 GameScene::Update() 구현 X / 확인을 위해 Render() 먼저 구현)
                 game.Render();
                 prevTick = now;
             }

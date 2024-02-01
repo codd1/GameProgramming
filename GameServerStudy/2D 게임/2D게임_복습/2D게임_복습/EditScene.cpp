@@ -15,7 +15,6 @@ void EditScene::Init()
 {
 }
 
-// 20. EditScene::Update() 구현
 void EditScene::Update()
 {
 	// 좌클릭
@@ -123,7 +122,6 @@ void EditScene::Update()
 	}
 }
 
-// 24. EditScene::Update() 구현
 void EditScene::Render(HDC hdc)
 {
 	for (auto& line : _lines) {

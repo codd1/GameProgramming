@@ -9,7 +9,6 @@ void TimeManager::Init()
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&_prevCount));
 }
 
-// 17. TimeManager::Update() 구현
 // 초당 프레임 수(FPS)를 유지하게 하는 함수
 void TimeManager::Update()
 {

@@ -1,5 +1,5 @@
 #pragma once
-// 5. TimeManager »ý¼º
+
 class TimeManager
 {
 public:

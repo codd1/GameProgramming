@@ -7,7 +7,6 @@ void InputManager::Init(HWND hwnd)
 	_states.resize(KEY_TYPE_COUNT, KeyState::None);		// 벡터의 크기 변경
 }
 
-// 17. InputManager::Update() 구현
 // 키보드에 대한 정보를 업데이트하고 각 키의 상태를 _states 벡터에 기록
 void InputManager::Update()
 {

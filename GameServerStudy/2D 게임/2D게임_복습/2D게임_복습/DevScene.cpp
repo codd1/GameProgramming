@@ -15,7 +15,6 @@ void DevScene::Init()
 {
 }
 
-// 19. DevScene::Update() 구현
 void DevScene::Update()
 {
 	// deltaTime은 이전 프레임에서 현재 시간까지 경과된 시간이다.

@@ -1,6 +1,5 @@
 #pragma once
 
-// 3. Game 클래스 생성
 class Game
 {
 public:

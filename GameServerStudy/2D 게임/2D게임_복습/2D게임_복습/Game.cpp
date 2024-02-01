@@ -12,7 +12,6 @@ Game::Game()
 
 Game::~Game()
 {
-	// 43. 소멸자에서 Clear() 호출
 	GET_SINGLE(SceneManager)->Clear();
 	GET_SINGLE(ResourceManager)->Clear();
 
@@ -27,7 +26,6 @@ void Game::Init(HWND hwnd)
 	// 창 클라이언트 영역의 좌표를 검색한다. 클라이언트 좌표는 왼쪽 위와 오른쪽 아래 모서리를 지정. 왼쪽 위 모서리의 좌표는 (0,0)
 	::GetClientRect(hwnd, &_rect);
 
-	// 35. Player 이동 시에 잔상이 남아있는 문제 -> 더블버퍼링으로 해결 (Init, Render)
 	_hdcBack = ::CreateCompatibleDC(_hdc);		// hdc와 호환되는 DC를 생성
 	_bmpBack = ::CreateCompatibleBitmap(_hdc, _rect.right, _rect.bottom);
 	HBITMAP prev = (HBITMAP)::SelectObject(_hdcBack, _bmpBack);
@@ -65,7 +63,6 @@ void Game::Render()
 
 	GET_SINGLE(SceneManager)->Render(_hdcBack);
 
-	// 35. Player 이동 시에 잔상이 남아있는 문제 -> 더블버퍼링으로 해결 (Init, Render)
 	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY);
 	::PatBlt(_hdcBack, 0, 0, _rect.right, _rect.bottom, WHITENESS);
 }

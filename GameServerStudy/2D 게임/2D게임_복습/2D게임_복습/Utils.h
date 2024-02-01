@@ -1,6 +1,5 @@
 #pragma once
 
-// 23. DevScene::Render() 함수 구현 전 Utils 클래스 구현
 // 만들고 pch.h에 추가
 class Utils
 {

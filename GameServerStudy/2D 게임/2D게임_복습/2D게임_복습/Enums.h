@@ -8,7 +8,6 @@ enum class SceneType {
 	FortressScene
 };
 
-// 58. 포트리스 모작
 // GameScene, Monster, Missile 제거
 // UIManager.h, .cpp + UI, Menu, CanonTank, MissileTank.txt 추가
 
@@ -18,7 +17,6 @@ enum class PlayerType {
 	MissileTank
 };
 
-// 67. Dir 추가 (Object.h)
 enum class Dir {
 	Left,
 	Right

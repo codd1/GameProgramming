@@ -1,5 +1,4 @@
 #pragma once
-// 6. InputManager »ý¼º
 
 enum class KeyType {
 	// VK = Virtual Key Code
