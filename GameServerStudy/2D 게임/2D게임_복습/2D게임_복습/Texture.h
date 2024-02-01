@@ -1,0 +1,25 @@
+#pragma once
+#include "ResourceBase.h"
+class Texture : public ResourceBase
+{
+public:
+	Texture();
+	virtual ~Texture() override;
+
+public:
+	Texture* LoadBmp(HWND hwnd, const wstring& path);
+	HDC GetDC() { return _hdc; }
+
+	void SetSize(Vec2Int size) { _size = size; }
+	Vec2Int GetSize() { return _size; }
+
+	void SetTransparent(uint32 transparent) { _transparent = transparent; }
+	uint32 GetTransparent() { return _transparent; }
+
+private:
+	HDC _hdc = {};
+	HBITMAP _bitmap = {};
+	Vec2Int _size = {};
+	uint32 _transparent = RGB(255, 0, 255);		// 리소스 파일의 뒷배경을 무슨 색으로 투명 처리할 것인지
+};
+

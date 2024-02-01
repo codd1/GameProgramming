@@ -15,7 +15,10 @@
 
 using namespace std;
 
+// C++20
 #include <format>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #include "Utils.h"
 
