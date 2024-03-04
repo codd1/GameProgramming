@@ -1,26 +1,45 @@
 ﻿#include <iostream>
 #include <thread>
 #include <vector>
+#include <Windows.h>
 
 using namespace std;
 
-void HelloThread(int i) {
-    while (true) {
-        cout << "Hello Thread" << i << endl;
-    }
-}
+int buffer[10000][10000];
+
 int main()
 {
-    vector<thread> threads;
+    ::memset(buffer, 0, sizeof(buffer));
 
-    for (int i = 0; i < 10; i++) {
-        threads.push_back(thread(HelloThread, i));
+    {
+        auto start = GetTickCount64();
+
+        __int64 sum = 0;
+
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10000; j++) {
+                sum += buffer[i][j];
+            }
+        }
+
+        auto end = GetTickCount64();
+
+        cout << "Elapsed Tick " << (end - start) << endl;
     }
 
-    cout << "Hello Main" << endl;
+    {
+        auto start = GetTickCount64();
 
-    for (thread& t : threads) {
-        t.join();
+        __int64 sum = 0;
+
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10000; j++) {
+                sum += buffer[j][i];
+            }
+        }
+
+        auto end = GetTickCount64();
+
+        cout << "Elapsed Tick " << (end - start) << endl;
     }
-    
 }
