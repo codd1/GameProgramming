@@ -15,7 +15,7 @@
 #include "CollisionManager.h"
 #include "UI.h"
 #include "Button.h"
-#include "TestPanel.h"
+//#include "TestPanel.h"
 
 DevScene::DevScene()
 {
@@ -110,12 +110,12 @@ void DevScene::Init()
 		AddActor(actor);
 	}
 
-	{
-		// Button -> TestPanel 수정
-		TestPanel* button = new TestPanel();
+	//{
+	//	// Button -> TestPanel 수정
+	//	TestPanel* button = new TestPanel();
 
-		_uis.push_back(button);
-	}
+	//	_uis.push_back(button);
+	//}
 
 	// 모든 Actor들을 순회하면서 실행
 	for (const vector<Actor*>& actors : _actors) {
